@@ -13,6 +13,10 @@ def get_ticker_symbols():
 def run_script():
     ticker_list = get_ticker_symbols()
     all_data = all_stocks_class.AllStocksClass(ticker_list)
-    all_data.get_all_the_data()
+    all_data.get_stock_data()
+    all_data.calculate_all_factors()
+    all_data.print_z_scores()
+    import pdb; pdb.set_trace()
+
 
 run_script()

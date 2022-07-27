@@ -6,22 +6,23 @@ class AllStocksClass:
     def __init__(self, stock_list):
         self.ticker_list = stock_list
         self.stocks_as_classes = []
+        self.all_stock_measures = ['gp_over_assets','roe','roa','cfoa','low_acc','gross_margin','growth_gp_over_assets','growth_roe','growth_roa','growth_cfoa','growth_gross_margin','net_equity_issuance','net_debt_issuance','net_payout_over_profits','leverage','one_minus_beta','roe_std_3y','altmans_z']
+        self.all_factors = ['profitability_score','growth_score','payout_score','safty_score']
+        self.z_score = ['z_score_sum']
 
-    def get_all_the_data(self):
-        self.get_stock_data()
+        
+
+    def calculate_all_factors(self):
         self.calculate_factors()
-        self.calculate_scores(['gp_over_assets','roe','roa','cfoa','low_acc','gross_margin','growth_gp_over_assets','growth_roe','growth_roa','growth_cfoa','growth_gross_margin','net_equity_issuance','net_debt_issuance','net_payout_over_profits','leverage','one_minus_beta','roe_std_3y','altmans_z'])
+        self.calculate_scores(self.all_stock_measures)
         self.get_stock_factor_totals()
-        self.calculate_scores(['profitability_score','growth_score','payout_score','safty_score'])
+        self.calculate_scores(self.all_factors)
         self.calculate_total_z_scores()
-        self.calculate_scores(['z_score_sum'])
-        self.print_z_scores()
-        import pdb; pdb.set_trace()
+        self.calculate_scores(self.z_score)
 
     def calculate_scores(self, factor_list):
         self.calculate_factor_mean_std(factor_list)
         self.calculate_z_scores(factor_list)
-
 
     def create_stock_class(self, stock):
         print('Getting data for ' + stock['ticker'])
@@ -61,10 +62,9 @@ class AllStocksClass:
                 setattr(stock, factor_name, stock_z_score)
 
     def calculate_total_z_scores(self):
-        factors = ['profitability_score','growth_score','payout_score','safty_score']
         for stock in self.stocks_as_classes:
             z_score_sum = 0
-            for factor in factors:
+            for factor in self.all_factors:
                 z_score_sum = z_score_sum + getattr(stock, factor)
             setattr(stock, 'z_score_sum', z_score_sum)
 
@@ -72,9 +72,8 @@ class AllStocksClass:
         for stock in self.stocks_as_classes:
             stock.calculate_factor_totals()
 
-
     def print_z_scores(self):
-        factors = ['profitability_score','growth_score','payout_score','safty_score', 'z_score_sum']
+        factors = self.all_factors + self.z_score
         for factor in factors:
             print('Factor: ' + factor)
             for stock in self.stocks_as_classes:

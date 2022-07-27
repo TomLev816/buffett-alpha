@@ -66,19 +66,20 @@ class StockClass:
         
 
     def get_income_statment_data(self):
+        data_points = ['TotalRevenue', 'CostOfRevenue', 'NetIncome', 'TaxProvision', 'BasicAverageShares', 'OperatingExpense']
         income_statement = self.stock_info.income_statement('a')
         self.income_statement_cy = income_statement.tail(1).iloc[0]
         income_statement = self.stock_info.income_statement('a', False)
         self.income_statement_1y = income_statement.iloc[2]
         self.income_statement_2y = income_statement.iloc[1]
         self.income_statement_3y = income_statement.iloc[0]
-        data_points = ['TotalRevenue', 'CostOfRevenue', 'NetIncome', 'TaxProvision', 'BasicAverageShares', 'OperatingExpense']
         self.loop_data_points(self.income_statement_cy, data_points, 'cy')
         self.loop_data_points(self.income_statement_1y, data_points, '1y')
         self.loop_data_points(self.income_statement_2y, data_points, '2y')
         self.loop_data_points(self.income_statement_3y, data_points, '3y')
 
     def get_cash_flow_data(self):
+        data_points = ['Depreciation', 'CapitalExpenditure']
         cash_flow_statement = self.stock_info.cash_flow('a')
         self.cash_flow_cy = cash_flow_statement.tail(1).iloc[0]
         cash_flow_statement = self.stock_info.cash_flow('a', False)
@@ -86,11 +87,11 @@ class StockClass:
         self.cash_flow_2y = cash_flow_statement.iloc[1]
         self.cash_flow_1y = cash_flow_statement.iloc[2]
 
-        data_points = ['Depreciation', 'CapitalExpenditure']
         self.loop_data_points(self.cash_flow_cy, data_points, 'cy')
         self.loop_data_points(self.cash_flow_3y, data_points, '3y')
     
     def get_balance_sheet_data(self):
+        data_points = ['CommonStockEquity','TotalAssets','CurrentAssets','CashAndCashEquivalents','CurrentLiabilities','CurrentDebtAndCapitalLeaseObligation', 'LongTermDebt', 'TotalEquityGrossMinorityInterest']
         balance_sheet = self.stock_info.balance_sheet('q')
         self.balance_sheet_cy = balance_sheet.tail(1).iloc[0]
         balance_sheet = self.stock_info.balance_sheet('a')
@@ -98,7 +99,6 @@ class StockClass:
         self.balance_sheet_2y = balance_sheet.iloc[1]
         self.balance_sheet_3y = balance_sheet.iloc[0]
 
-        data_points = ['CommonStockEquity','TotalAssets','CurrentAssets','CashAndCashEquivalents','CurrentLiabilities','CurrentDebtAndCapitalLeaseObligation', 'LongTermDebt', 'TotalEquityGrossMinorityInterest']
         self.loop_data_points(self.balance_sheet_cy, data_points, 'cy')
         self.loop_data_points(self.balance_sheet_1y, data_points, '1y')
         self.loop_data_points(self.balance_sheet_2y, data_points, '2y')
@@ -178,6 +178,7 @@ class StockClass:
         # print('Safty for ' + self.ticker)
         # print('self.roe_std_3y: ' + str(self.self.roe_std_3y))
         # print('self.leverage: ' + str(self.self.leverage))
+        # print('self.altmans_z: ' + str(self.altmans_z))
         # print('self.one_minus_beta: ' + str(self.self.one_minus_beta))
         return 
 
@@ -199,8 +200,6 @@ class StockClass:
                 factor_category_sum = factor_category_sum + factor_value
             factor_score_text = factor_category + '_score'
             setattr(self, factor_score_text, factor_category_sum)
-
-
 
     def calculate_factors(self):
         self.det_profitability()
