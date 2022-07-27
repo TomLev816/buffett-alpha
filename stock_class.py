@@ -20,7 +20,6 @@ class StockClass:
         self.balance_sheet_1y = ''
         self.balance_sheet_2y = ''
         self.balance_sheet_3y = ''
-        # Ratios
 
     def get_financial_data(self):
         self.get_income_statment_data()
@@ -31,7 +30,6 @@ class StockClass:
 
     def check_data(self):
         if self.TotalAssets_cy == 0:
-            # import pdb ;pdb.set_trace()
             pass
 
     def get_profile_data(self):
